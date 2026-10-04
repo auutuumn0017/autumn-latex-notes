@@ -1,0 +1,139 @@
+\documentclass[UTF8, 11pt, a4paper]{ctexart}
+% 页面边距设置
+\usepackage[left=2.5cm, right=2.5cm, top=3cm, bottom=3cm]{geometry}
+\usepackage{xcolor, fancyhdr, titlesec, hyperref, amsmath, amssymb, amsthm}
+\usepackage[many]{tcolorbox}
+\usepackage{enumitem} % 用于自定义列表间距
+
+% ==========================================
+% 颜色定义 (绝对没有绿色！采用牛津蓝与勃艮第红的经典搭配)
+% ==========================================
+\definecolor{OxfordBlue}{RGB}{0, 33, 71}      % 主色调：深邃的牛津蓝
+\definecolor{Burgundy}{RGB}{128, 0, 32}       % 强调色：勃艮第酒红 (用于定理、警告、公式)
+\definecolor{LightGrey}{RGB}{248, 249, 250}   % 框体背景色：极浅的灰色
+\definecolor{Highlight}{RGB}{255, 243, 205}   % 行内高亮底色：柔和的淡黄色
+
+% ==========================================
+% 自定义行内文本命令
+% ==========================================
+\newcommand{\hl}[1]{\colorbox{Highlight}{#1}} % 行内高亮文字
+\newcommand{\imp}[1]{\textbf{\color{Burgundy}#1}} % 重点强调文字(红色加粗)
+
+% --- 超链接设置 ---
+\hypersetup{colorlinks=true, linkcolor=OxfordBlue, urlcolor=OxfordBlue}
+
+% ==========================================
+% 页眉页脚设置
+% ==========================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\color{OxfordBlue}\textbf{《网页深度阅读笔记》}}
+\fancyhead[R]{\color{OxfordBlue}\leftmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.8pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{OxfordBlue}\leaders\hrule height \headrulewidth\hfill}}
+
+% ==========================================
+% 标题美化
+% ==========================================
+\titleformat{\section}{\Large\bfseries\color{OxfordBlue}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries\color{OxfordBlue!85!black}}{\thesubsection}{1em}{}
+
+% ==========================================
+% 各类特色笔记框定义
+% ==========================================
+
+% 1. 定义/概念框 (蓝色基调，带阴影)
+\newtcolorbox{conceptbox}[1][]{
+    enhanced, colback=LightGrey, colframe=OxfordBlue, fonttitle=\bfseries,
+    title=#1, attach boxed title to top left={yshift=-2mm, xshift=5mm},
+    boxed title style={colback=OxfordBlue, sharp corners=all, rounded corners=northeast},
+    arc=2mm, drop fuzzy shadow
+}
+
+% 2. 定理/公式框 (红色基调，突出视觉重点)
+\newtcolorbox{theorembox}[1][]{
+    enhanced, colback=Burgundy!5, colframe=Burgundy, fonttitle=\bfseries,
+    title=#1, attach boxed title to top left={yshift=-2mm, xshift=5mm},
+    boxed title style={colback=Burgundy, sharp corners=all, rounded corners=northeast},
+    arc=2mm, drop fuzzy shadow
+}
+
+% 3. 原文摘抄框 (左侧粗线，极简风格)
+\newtcolorbox{quotebox}{
+    colback=OxfordBlue!3, colframe=OxfordBlue,
+    leftrule=4pt, rightrule=0pt, toprule=0pt, bottomrule=0pt, arc=0pt
+}
+
+% 4. 注意事项/警告框 (虚线边框，红色)
+\newtcolorbox{warningbox}{
+    enhanced, colback=white, colframe=Burgundy,
+    boxrule=1pt, arc=1mm, borderline={0.5pt}{2pt}{Burgundy, dashed},
+    title=\textcolor{Burgundy}{\textbf{⚠️ 易错点提示}}, coltitle=Burgundy,
+    attach title to upper, after title={\par\smallskip}
+}
+
+% ==========================================
+% 正文开始
+% ==========================================
+\title{\vspace{-2cm}\color{OxfordBlue}\Huge\textbf{网页文献阅读与重构笔记}}
+\author{Autumn}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+
+\section{第一章：信息论与贝叶斯推断}
+我们在阅读这篇网页时，作者花了大篇幅讨论概率论的基础。本章主要梳理其中的数学逻辑和关键论点。
+
+% --- 概念框示例 ---
+\begin{conceptbox}[核心定义：条件概率 (Conditional Probability)]
+条件概率是指事件 A 在另外一个事件 B 已经发生条件下的发生概率。表示为 $P(A|B)$，读作“在 B 发生的条件下 A 发生的概率”。
+\end{conceptbox}
+
+在理解了上述定义后，网页作者引用了拉普拉斯的一句名言，我觉得总结得非常好：
+
+% --- 摘抄框示例 ---
+\begin{quotebox}
+“概率论只不过是把常识用数学公式严谨地表达了出来。它让我们在面对不确定性时，依然能够做出最优的决策。” —— \textit{网页第2自然段}
+\end{quotebox}
+
+\subsection{1.1 核心公式定理}
+接下来是全篇最核心的部分。作者不仅给出了公式，还给出了推导。为了在复习时一眼看到重点，我把它放进了独立的公式定理框中：
+
+% --- 定理/公式框示例 ---
+\begin{theorembox}[定理：贝叶斯公式 (Bayes' Theorem)]
+假设 $A$ 和 $B$ 是两个随机事件，且 $P(B) \neq 0$，则有：
+\begin{equation}
+    P(A|B) = \frac{P(B|A) P(A)}{P(B)}
+\end{equation}
+其中，$P(A)$ 称为\imp{先验概率} (Prior)，$P(A|B)$ 称为\imp{后验概率} (Posterior)。
+\end{theorembox}
+
+% --- 多行公式推导示例 ---
+\subsection{1.2 公式的推导过程}
+根据全概率公式，我们可以对分母进行展开推导。以下是详细的步骤（注意对齐）：
+\begin{align}
+    P(A|B) &= \frac{P(A \cap B)}{P(B)} \notag \\ % notag 表示这一行不编号
+           &= \frac{P(B|A) P(A)}{\sum_{i=1}^{n} P(B|A_i)P(A_i)} \\
+           &\propto P(B|A) P(A)
+\end{align}
+从式 (3) 可以看出，\hl{后验概率正比于似然函数乘以先验概率}。这句话是整篇文章的灵魂。
+
+% --- 列表与警告框示例 ---
+\subsection{1.3 实际应用步骤}
+在将贝叶斯推断应用到实际代码中时，作者给出了以下几个步骤：
+\begin{itemize}[itemsep=3pt, parsep=0pt]
+    \item \textbf{Step 1}: 确定参数的先验分布模型。
+    \item \textbf{Step 2}: 根据观测数据写出似然函数 (Likelihood)。
+    \item \textbf{Step 3}: 利用积分或马尔可夫链蒙特卡洛 (MCMC) 方法求解后验分布。
+\end{itemize}
+
+\begin{warningbox}
+在执行 Step 3 时，分母的积分往往是无法解析求解的（Intractable）。千万不要尝试强行手算高维分布的连续积分，直接使用 \texttt{PyMC3} 或 \texttt{Stan} 等概率编程库进行近似采样。
+\end{warningbox}
+
+\end{document}
